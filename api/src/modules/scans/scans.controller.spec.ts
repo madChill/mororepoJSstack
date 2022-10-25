@@ -4,6 +4,15 @@ import { ScansResult } from '../../entities/scans.entity';
 import { CreateScansResultDtoService } from './scans.service';
 import { ScansResultModule } from './scans.module';
 
+export const repositoryMockFactory = jest.fn(() => ({
+  create: jest.fn((entity) => entity),
+  findOne: jest.fn((entity) => ({ Status: 'success' })),
+  findAll: jest.fn((entity) => ({
+    data: [],
+    total: 1,
+  })),
+  // ...
+}));
 describe('ScanController', () => {
   let controller: ScansResultController;
   let service: CreateScansResultDtoService;
@@ -11,7 +20,12 @@ describe('ScanController', () => {
     const module: TestingModule = await Test.createTestingModule({
       // imports: [ScansResultModule],
       controllers: [ScansResultController],
-      providers: [CreateScansResultDtoService],
+      providers: [
+        {
+          provide: CreateScansResultDtoService,
+          useFactory: repositoryMockFactory,
+        },
+      ],
     }).compile();
 
     controller = module.get<ScansResultController>(ScansResultController);
@@ -21,15 +35,21 @@ describe('ScanController', () => {
   });
 
   describe('findAll', () => {
-    it('should return an array of cats', async () => {
-      const {} = ['test'];
+    it('should return an array of scans', async () => {
       const result = {
         data: [],
-        total: 0,
+        total: 1,
       };
-      // jest.spyOn(service, 'findAll').mockImplementation(() => result);
-
-      expect(await controller.findAll({})).toBe(result);
+      const result1 = await controller.findAll({});
+      console.log(result1);
+      expect(result1).toStrictEqual(result);
+    });
+  });
+  describe('findOne', () => {
+    it('should return an array of scans', async () => {
+      const result1 = await controller.findOne('');
+      console.log(result1);
+      expect(result1).toStrictEqual({ Status: 'success' });
     });
   });
 });

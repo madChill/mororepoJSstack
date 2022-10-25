@@ -25,3 +25,17 @@ docker-compose up -d
 
 after we can access dashboard on link: http://localhost:8000
 and api: http://localhost:3000/scans
+
+## Running the app testing
+* for api backend 
+```bash
+$ cd api && yarn test
+or
+yarn test:watch
+```
+
+* for dashboard reactjs 
+
+```bash
+$ cd dashboard && yarn test
+```

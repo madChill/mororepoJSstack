@@ -24,7 +24,7 @@ const FormScan: React.FC<{}> = () => {
 
       <Table.Body>
         {scans.map((item: IScanItem, index: number) => {
-          return (<Table.Row key={index}>
+          return (<Table.Row>
             <Table.Cell>
               <Label ribbon>{item.RepositoryName}</Label>
               <Link to={`/finding?id=${item.id}`}>{item.RepositoryName}</Link>
@@ -42,8 +42,8 @@ const FormScan: React.FC<{}> = () => {
       <Table.Footer>
         <Table.Row>
           <Table.HeaderCell colSpan='4'>
-            <Menu floated='right' pagination>
-              <Pagination defaultActivePage={0} totalPages={total / 10}
+            <Menu key={"menuPage"} floated='right' pagination>
+              <Pagination defaultActivePage={0} totalPages={Number(total / 10)}
                 onPageChange={(event: React.MouseEvent<HTMLAnchorElement, MouseEvent>, data: PaginationProps) => {
                   setPage(Number(data.activePage))
                 }}
